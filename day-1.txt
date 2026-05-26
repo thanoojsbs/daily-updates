@@ -1,0 +1,3 @@
+today i took two mock interviews one with partha saradhi and one with aravind
+the rest two hours i did the submission intelligence work like checking the pending,parked and completed ones
+then had a discussion with my team mates and i took the ownership of tool docker and ci/cd for devops in 47 hr course
