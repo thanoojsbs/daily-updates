@@ -1,0 +1,26 @@
+Docker terminology basics:
+
+* Docker Client (CLI) → command tool used to send Docker commands.
+* Docker Daemon → background service that manages containers, images, and networks.
+* Docker Image → read-only template containing app code, dependencies, and configs.
+* Docker Container → running instance of an image.
+* Docker Registry → storage for Docker images.
+* Dockerfile → script with instructions to build Docker images.
+* Docker Hub → public registry to pull/push images.
+
+Common commands:
+
+```bash
+docker build -t my-app .
+docker pull nginx
+docker run -d -p 8080:80 nginx
+docker ps
+docker search node
+docker push username/app
+```
+
+Key concept:
+Image = blueprint/template
+Container = running application instance
+
+Docker helps applications run consistently across environments using lightweight isolated containers. 
