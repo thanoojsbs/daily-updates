@@ -1,0 +1,1019 @@
+# Docker — Complete Beginner to Production Understanding
+
+## 1. Topic Overview
+
+### What is Docker?
+
+Docker is a containerization platform used to package applications along with:
+
+* code
+* dependencies
+* libraries
+* runtime
+* configurations
+
+into isolated units called containers.
+
+A container runs consistently everywhere:
+
+* developer laptop
+* testing server
+* cloud VM
+* Kubernetes cluster
+* production infrastructure
+
+---
+
+### Why was Docker created?
+
+Before Docker:
+
+```text
+Developer Machine → Works
+Testing Server → Fails
+Production → Completely breaks
+```
+
+This problem was called:
+
+> “Works on my machine.”
+
+Different systems had:
+
+* different OS packages
+* different library versions
+* missing dependencies
+* environment mismatches
+
+Docker solved this by packaging everything together.
+
+---
+
+### What problem does Docker solve?
+
+Docker solves:
+
+| Problem              | Docker Solution            |
+| -------------------- | -------------------------- |
+| Dependency conflicts | Isolated containers        |
+| Environment mismatch | Same runtime everywhere    |
+| Slow deployments     | Portable images            |
+| Scaling difficulties | Lightweight containers     |
+| Resource waste       | Efficient sharing          |
+| VM overhead          | Lightweight virtualization |
+
+---
+
+### Beginner Analogy
+
+Think of Docker container like a:
+
+> “Lunch box containing full meal.”
+
+Instead of carrying:
+
+* rice separately
+* curry separately
+* spoon separately
+
+Everything is packed together.
+
+Similarly:
+Docker packages:
+
+* app
+* runtime
+* dependencies
+* configs
+
+inside one portable unit.
+
+---
+
+### Why companies use Docker?
+
+Companies use Docker because:
+
+* deployments become faster
+* environments become consistent
+* scaling becomes easier
+* CI/CD becomes reliable
+* infrastructure becomes portable
+* rollback becomes easy
+
+---
+
+### Production Importance
+
+Docker is foundational in:
+
+* Kubernetes
+* microservices
+* cloud-native apps
+* CI/CD pipelines
+* DevOps workflows
+* modern backend infrastructure
+
+Without Docker:
+
+* Kubernetes is almost meaningless
+* CI/CD becomes harder
+* scaling becomes painful
+
+---
+
+# 2. Engineering Mental Model
+
+## How engineers think about Docker
+
+Engineers think:
+
+```text
+Application = Process
+Docker = Isolated Runtime Environment
+Container = Standardized Execution Unit
+```
+
+---
+
+### Important mindset
+
+Docker is NOT a VM.
+
+Docker shares the host OS kernel.
+
+VM:
+
+```text
+Hardware → Hypervisor → Guest OS → App
+```
+
+Docker:
+
+```text
+Hardware → Host OS → Docker Engine → Containers
+```
+
+This makes Docker:
+
+* lightweight
+* faster
+* cheaper
+* scalable
+
+---
+
+## Internal Thinking
+
+Engineers use Docker to guarantee:
+
+```text
+Same app
+Same dependencies
+Same behavior
+Everywhere
+```
+
+---
+
+## If Docker did not exist
+
+Problems:
+
+* dependency hell
+* server mismatch
+* deployment failures
+* inconsistent testing
+* scaling complexity
+
+---
+
+# 3. Core Concepts
+
+# Container
+
+### Definition
+
+Lightweight isolated runtime environment.
+
+### Important Point
+
+Container is just:
+
+```text
+A running process with isolation
+```
+
+---
+
+# Image
+
+### Definition
+
+Blueprint/template used to create containers.
+
+Example:
+
+```bash
+docker pull nginx
+```
+
+`nginx` here is image.
+
+---
+
+# Docker Engine
+
+Main runtime responsible for:
+
+* building images
+* running containers
+* networking
+* storage
+* isolation
+
+---
+
+# Dockerfile
+
+Instruction file to build image.
+
+Example:
+
+```dockerfile
+FROM node:20
+
+WORKDIR /app
+
+COPY . .
+
+RUN npm install
+
+CMD ["npm", "start"]
+```
+
+---
+
+# Registry
+
+Place where images are stored.
+
+Examples:
+
+* Docker Hub
+* Amazon Elastic Container Registry
+* GitHub Container Registry
+
+---
+
+# Volumes
+
+Persistent storage for containers.
+
+Without volume:
+
+```text
+Container deleted → Data deleted
+```
+
+---
+
+# Networking
+
+Docker provides isolated networking between containers.
+
+Example:
+
+```text
+Frontend Container ↔ Backend Container ↔ Database Container
+```
+
+---
+
+# 4. Architecture and Workflow
+
+# Docker Architecture
+
+```text
++----------------------+
+| Docker CLI           |
++----------------------+
+           |
+           v
++----------------------+
+| Docker Daemon        |
+| (dockerd)            |
++----------------------+
+     |        |      |
+     v        v      v
+ Images   Containers Networks
+```
+
+---
+
+# Request Flow
+
+```text
+docker run nginx
+      |
+      v
+Docker CLI
+      |
+      v
+Docker Daemon
+      |
+      v
+Check Image Exists?
+      |
+   Yes/No
+      |
+      v
+Create Container
+      |
+      v
+Run Process
+```
+
+---
+
+# Lifecycle
+
+```text
+Build → Push → Pull → Run → Stop → Remove
+```
+
+---
+
+# 5. Installation and Setup
+
+# Windows
+
+Install:
+
+* Docker Desktop
+
+Official site:
+
+[Docker Official Website](https://www.docker.com/?utm_source=chatgpt.com)
+
+---
+
+# Linux (Ubuntu)
+
+## Install
+
+```bash
+sudo apt update
+```
+
+```bash
+sudo apt install docker.io -y
+```
+
+---
+
+## Start Docker
+
+```bash
+sudo systemctl start docker
+```
+
+---
+
+## Enable on Boot
+
+```bash
+sudo systemctl enable docker
+```
+
+---
+
+## Verify
+
+```bash
+docker --version
+```
+
+Expected:
+
+```text
+Docker version 28.x.x
+```
+
+---
+
+# Common Installation Issues
+
+| Problem                | Cause                    |
+| ---------------------- | ------------------------ |
+| Permission denied      | User not in docker group |
+| Daemon not running     | Service stopped          |
+| Docker command missing | Installation failed      |
+
+---
+
+# Fix Permission Issue
+
+```bash
+sudo usermod -aG docker $USER
+```
+
+Then:
+
+```bash
+newgrp docker
+```
+
+---
+
+# 6. Dockerfile Deep Dive
+
+# Basic Example
+
+```dockerfile
+FROM python:3.12
+
+WORKDIR /app
+
+COPY . .
+
+RUN pip install -r requirements.txt
+
+EXPOSE 5000
+
+CMD ["python", "app.py"]
+```
+
+---
+
+# Explanation
+
+| Instruction | Purpose              |
+| ----------- | -------------------- |
+| FROM        | Base image           |
+| WORKDIR     | Working directory    |
+| COPY        | Copy files           |
+| RUN         | Execute during build |
+| EXPOSE      | Inform port          |
+| CMD         | Start command        |
+
+---
+
+# Production Best Practice
+
+Use smaller images:
+
+Bad:
+
+```dockerfile
+FROM ubuntu
+```
+
+Better:
+
+```dockerfile
+FROM alpine
+```
+
+Why?
+
+* smaller image
+* faster pull
+* less vulnerabilities
+
+---
+
+# 7. Important Commands
+
+# Pull Image
+
+```bash
+docker pull nginx
+```
+
+Purpose:
+Download image.
+
+---
+
+# Run Container
+
+```bash
+docker run nginx
+```
+
+---
+
+# Run in Background
+
+```bash
+docker run -d nginx
+```
+
+`-d` = detached mode.
+
+---
+
+# Port Mapping
+
+```bash
+docker run -p 8080:80 nginx
+```
+
+Meaning:
+
+```text
+Host 8080 → Container 80
+```
+
+---
+
+# View Containers
+
+```bash
+docker ps
+```
+
+---
+
+# Stop Container
+
+```bash
+docker stop <container_id>
+```
+
+---
+
+# Remove Container
+
+```bash
+docker rm <container_id>
+```
+
+---
+
+# Build Image
+
+```bash
+docker build -t myapp .
+```
+
+---
+
+# View Logs
+
+```bash
+docker logs <container_id>
+```
+
+Production debugging starts here.
+
+---
+
+# Enter Container
+
+```bash
+docker exec -it <container_id> bash
+```
+
+Critical production command.
+
+---
+
+# 8. Hands-On Practical Example
+
+# Beginner Example
+
+Run Nginx website.
+
+```bash
+docker run -d -p 8080:80 nginx
+```
+
+Open:
+
+```text
+http://localhost:8080
+```
+
+---
+
+# Intermediate Example
+
+Run MySQL container.
+
+```bash
+docker run -d \
+--name mysql-db \
+-e MYSQL_ROOT_PASSWORD=password \
+-p 3306:3306 \
+mysql
+```
+
+---
+
+# Advanced Production Example
+
+Multi-container app:
+
+```text
+Frontend → Backend → Redis → PostgreSQL
+```
+
+Managed using:
+
+* Docker Compose
+* Kubernetes
+
+---
+
+# 9. Docker Compose
+
+Used for managing multi-container apps.
+
+Example:
+
+```yaml
+version: '3'
+
+services:
+  web:
+    image: nginx
+    ports:
+      - "8080:80"
+
+  db:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+```
+
+Run:
+
+```bash
+docker compose up -d
+```
+
+---
+
+# 10. Kubernetes Integration
+
+Docker made Kubernetes possible.
+
+Kubernetes uses containers to:
+
+* scale apps
+* self-heal systems
+* manage deployments
+* automate rollbacks
+
+Production Flow:
+
+```text
+Developer
+   |
+Git Push
+   |
+CI/CD Pipeline
+   |
+Docker Build
+   |
+Push Image
+   |
+Kubernetes Deploy
+```
+
+---
+
+# 11. Monitoring and Observability
+
+Tools:
+
+* Prometheus
+* Grafana
+* ELK Stack
+
+Monitor:
+
+* CPU
+* memory
+* network
+* container restarts
+* logs
+* crashes
+
+---
+
+# 12. Security and DevSecOps
+
+# Common Beginner Mistakes
+
+| Mistake           | Risk             |
+| ----------------- | ---------------- |
+| Running as root   | Container escape |
+| Large images      | Vulnerabilities  |
+| Hardcoded secrets | Credential leaks |
+| Latest tag usage  | Unstable builds  |
+
+---
+
+# Best Practices
+
+Use:
+
+```dockerfile
+USER appuser
+```
+
+Scan images:
+
+* Trivy
+* Snyk
+
+---
+
+# 13. Real-World Industry Use Cases
+
+# Netflix
+
+Uses containers for:
+
+* microservices
+* scalability
+* rapid deployment
+
+---
+
+# Uber
+
+Uses containerized infrastructure for:
+
+* thousands of backend services
+* deployment automation
+
+---
+
+# Amazon
+
+Uses containers heavily in:
+
+* ECS
+* EKS
+* internal infrastructure
+
+---
+
+# 14. DevOps Engineer Daily Work
+
+Daily Docker tasks:
+
+* build images
+* debug containers
+* check logs
+* optimize Dockerfiles
+* fix deployment issues
+* manage registries
+* monitor crashes
+* patch vulnerabilities
+
+---
+
+# 15. Production Best Practices
+
+# Use Multi-stage Builds
+
+Example:
+
+```dockerfile
+FROM node:20 AS build
+
+WORKDIR /app
+
+COPY . .
+
+RUN npm install
+
+RUN npm run build
+
+FROM nginx
+
+COPY --from=build /app/dist /usr/share/nginx/html
+```
+
+Benefits:
+
+* smaller images
+* better security
+* faster deployments
+
+---
+
+# 16. Common Errors and Troubleshooting
+
+# Container Exits Immediately
+
+Reason:
+Main process stopped.
+
+Debug:
+
+```bash
+docker logs <id>
+```
+
+---
+
+# Port Already in Use
+
+Error:
+
+```text
+Bind failed
+```
+
+Find process:
+
+```bash
+sudo lsof -i :8080
+```
+
+---
+
+# Disk Full
+
+Docker images consume huge space.
+
+Clean:
+
+```bash
+docker system prune -a
+```
+
+---
+
+# 17. Docker vs VM
+
+| Docker        | VM             |
+| ------------- | -------------- |
+| Lightweight   | Heavy          |
+| Shared kernel | Full OS        |
+| Fast startup  | Slow           |
+| Efficient     | Resource heavy |
+| Portable      | Less portable  |
+
+---
+
+# 18. Interview Questions
+
+# Beginner
+
+Q: Difference between image and container?
+
+Answer:
+
+* Image = blueprint
+* Container = running instance
+
+---
+
+# Intermediate
+
+Q: Difference between CMD and ENTRYPOINT?
+
+Answer:
+
+* CMD provides default command
+* ENTRYPOINT enforces executable
+
+---
+
+# Advanced
+
+Q: How do you reduce Docker image size?
+
+Answer:
+
+* alpine images
+* multi-stage builds
+* remove unnecessary packages
+* layer optimization
+
+---
+
+# 19. Resume Perspective
+
+Docker is almost mandatory for:
+
+* DevOps
+* Cloud
+* SRE
+* Platform Engineering
+* Backend Engineering
+
+---
+
+# Resume Example
+
+```text
+Containerized applications using Docker and deployed via CI/CD pipelines.
+```
+
+---
+
+# 20. Learning Roadmap
+
+Learn in order:
+
+```text
+Linux
+→ Networking
+→ Docker
+→ Docker Compose
+→ Kubernetes
+→ CI/CD
+→ Terraform
+→ Cloud
+```
+
+---
+
+# 21. Real Production Scenario
+
+# Incident
+
+Company:
+E-commerce platform.
+
+Problem:
+New deployment crashing.
+
+Root Cause:
+Wrong environment variable inside Docker container.
+
+Debugging:
+
+```bash
+docker logs
+docker exec
+env
+```
+
+Fix:
+
+* corrected secrets
+* rebuilt image
+* redeployed containers
+
+---
+
+# 22. Quick Notes
+
+# Important Concepts
+
+| Concept    | Meaning            |
+| ---------- | ------------------ |
+| Image      | Blueprint          |
+| Container  | Running process    |
+| Volume     | Persistent storage |
+| Registry   | Image storage      |
+| Dockerfile | Build instructions |
+
+---
+
+# 23. Cheat Sheet
+
+```bash
+docker ps
+docker images
+docker logs <id>
+docker exec -it <id> bash
+docker stop <id>
+docker rm <id>
+docker build -t app .
+docker pull nginx
+docker compose up -d
+docker system prune -a
+```
+
+---
+
+# 24. Final Production Mindset
+
+Senior engineers think about Docker as:
+
+* deployment standardization
+* infrastructure portability
+* scaling foundation
+* CI/CD enabler
+* Kubernetes building block
+* operational consistency
+
+Docker is not just a tool.
+
+It fundamentally changed:
+
+* software delivery
+* cloud infrastructure
+* DevOps engineering
+* production deployments
+* microservices architecture
