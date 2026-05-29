@@ -1,0 +1,32 @@
+WHAT: A Task Manager web app where users create accounts, add tasks, and track their status.
+
+ARCHITECTURE: 5 Docker containers:
+
+React Frontend (port 3000) - What users see
+Flask Backend (port 5000) - Business logic & API
+PostgreSQL (port 5432) - Stores data forever
+Redis (port 6379) - Super-fast cache
+Nginx (port 80) - Routes requests
+FLOW: User → Nginx → Frontend (React) → Backend (Flask) → Database (PostgreSQL) → Back to User
+
+KEY FILES:
+
+docker-compose.yml = Connects all services
+backend/app.py = REST API endpoints
+frontend/src/App.js = User interface
+init-db.sql = Create tables & sample data
+TECH STACK: React + Flask + PostgreSQL + Redis + Docker + Nginx
+
+DATA FLOW:
+
+Create user: POST /api/users → Saved to database
+Create task: POST /api/users/1/tasks → Stored
+Update task: PUT /api/tasks/1 → Database updated
+Delete task: DELETE /api/tasks/1 → Removed
+WHY DOCKER: One command starts everything, no conflicts, scalable, production-ready
+
+COMMANDS:
+
+docker compose up -d        # Start
+docker compose ps           # Status
+docker compose down         # Stop
