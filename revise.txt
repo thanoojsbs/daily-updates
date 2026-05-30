@@ -1,0 +1,276 @@
+
+1. Networking
+Workflow:
+Client → DNS → Server → Application → Database → Response
+Commands:
+ping
+curl
+netstat
+Key Terms:
+• DNS
+• IP Address
+• Client
+• Server
+• HTTP/HTTPS
+• Load Balancer
+• Port
+• Latency
+• Three-Tier Architecture
+2. Linux
+Workflow:
+User → Linux Server → Process → Service → Application
+Commands:
+ls
+pwd
+cd
+mkdir
+rm
+cp
+mv
+chmod
+chown
+top
+ps -ef
+curl
+ping
+systemctl
+df -h
+free -m
+journalctl
+Key Terms:
+• Kernel
+• Shell
+• Process
+• Daemon
+• SSH
+• Package Manager
+• File Permissions
+• User Management
+• Nginx
+3. Git & GitHub
+Workflow:
+Working Directory → Staging → Commit → GitHub
+Commands:
+git init
+git status
+git add .
+git commit -m "msg"
+git log
+git branch
+git checkout
+git merge
+git push
+git pull
+git clone
+git diff
+git remote -v
+Key Terms:
+• Repository
+• Commit
+• Branch
+• Merge
+• Pull Request
+• Clone
+• Remote Repository
+4. SDLC + Agile + DevOps
+Workflow:
+Plan → Develop → Build → Test → Release → Deploy → Monitor → Feedback
+Key Terms:
+• SDLC
+• Agile
+• Scrum
+• Sprint
+• Backlog
+• Standup
+• Retrospective
+• CI
+• CD
+• Pipeline
+• Jira
+5. AWS
+Workflow:
+IAM → EC2 → Security Group → Load Balancer → Auto Scaling → RDS
+Commands:
+aws configure
+aws s3 ls
+aws ec2 describe-instances
+Key Terms:
+• IAM
+• EC2
+• S3
+• VPC
+• Subnet
+• Security Group
+• Load Balancer
+• Auto Scaling
+• RDS
+• Availability Zone
+• Region
+6. Azure
+Workflow:
+Resource Group → VM → Storage → Networking → AKS → Azure DevOps
+Commands:
+az login
+az vm list
+az aks create
+Key Terms:
+• Resource Group
+• Azure VM
+• Azure Storage
+• AKS
+• Azure DevOps
+• Azure Monitor
+7. Terraform
+Workflow:
+Terraform Code → Plan → Apply → Cloud Resources
+Commands:
+terraform init
+terraform plan
+terraform apply
+terraform destroy
+Key Terms:
+• IaC
+• Provider
+• Resource
+• Variable
+• Output
+• State File
+• Module
+8. Ansible
+Workflow:
+Inventory → Playbook → SSH → Configuration → Deployment
+Commands:
+ansible all -m ping
+ansible-playbook deploy.yml
+ansible-inventory --list
+ansible-vault create
+Key Terms:
+• Inventory
+• Playbook
+• Role
+• Module
+• Handler
+• YAML
+• Idempotency
+• Agentless
+9. Azure DevOps / CI-CD
+Workflow:
+Git Push → Build → Test → Artifact → Deploy
+Key Terms:
+• CI
+• CD
+• Pipeline
+• Build
+• Release
+• Artifact
+• Agent
+• Trigger
+• Self-Hosted Agent
+10. Docker
+Workflow:
+Dockerfile → Image → Container → Registry
+Commands:
+docker build
+docker run
+docker ps
+docker images
+docker logs
+docker stop
+docker rm
+Key Terms:
+• Dockerfile
+• Image
+• Container
+• Volume
+• Registry
+• Docker Compose
+• Multi-stage Build
+• Docker Network
+11. Kubernetes
+Workflow:
+Docker Image → Deployment YAML → Pod → Service → Ingress
+Commands:
+kubectl get pods
+kubectl apply -f
+kubectl describe pod
+kubectl logs
+kubectl get svc
+kubectl scale
+kubectl get nodes
+kubectl top pods
+Key Terms:
+• Pod
+• Node
+• Deployment
+• ReplicaSet
+• Service
+• Ingress
+• ConfigMap
+• Secret
+• Namespace
+• HPA
+• Rolling Update
+• Self-Healing
+12. Prometheus & Grafana
+Workflow:
+Application → Exporter → Prometheus → Grafana → Alertmanager
+Commands:
+systemctl status prometheus
+kubectl get pods -n monitoring
+kubectl logs
+curl localhost:9090
+Key Terms:
+• Metrics
+• Exporter
+• Dashboard
+• Alertmanager
+• Observability
+• Scraping
+• Time Series Data
+• Node Exporter
+Ultimate End-to-End DevOps Workflow
+Developer
+ ↓
+Git/GitHub
+ ↓
+CI/CD Pipeline
+ ↓
+Docker Build
+ ↓
+Terraform
+ ↓
+Ansible
+ ↓
+Kubernetes
+ ↓
+Prometheus
+ ↓
+Grafana
+ ↓
+Monitoring & Alerts
+Most important interview keywords:
+Linux
+Git
+GitHub
+AWS
+Azure
+Terraform
+Ansible
+CI/CD
+Docker
+Kubernetes
+Prometheus
+Grafana
+IaC
+Containerization
+Orchestration
+Monitoring
+Observability
+Automation
+Scalability
+High Availability
+Load Balancing
+Security
+Troubleshooting
+If you memorize only this sheet, you can answer roughly 80–90% of basic DevOps viva
+questions.
