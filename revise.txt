@@ -272,5 +272,3 @@ High Availability
 Load Balancing
 Security
 Troubleshooting
-If you memorize only this sheet, you can answer roughly 80–90% of basic DevOps viva
-questions.
