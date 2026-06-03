@@ -1,0 +1,336 @@
+# Dockerized Full Stack Todo Application
+
+## Project Overview
+
+This project demonstrates how to build, containerize, and deploy a Full Stack Todo Application using:
+
+* Node.js
+* Express.js
+* MongoDB
+* Docker
+* Docker Networking
+* Docker Volumes
+* Docker Compose
+
+The application exposes REST APIs for creating and retrieving todo items and stores data in MongoDB running inside a Docker container.
+
+---
+
+## Project Structure
+
+```text
+docker-todo-app/
+│
+├── backend/
+│   ├── server.js
+│   ├── package.json
+│   ├── package-lock.json
+│   └── Dockerfile
+│
+└── docker-compose.yml
+```
+
+---
+
+## Technologies Used
+
+| Technology     | Purpose                       |
+| -------------- | ----------------------------- |
+| Node.js        | Backend Runtime               |
+| Express.js     | REST API Framework            |
+| MongoDB        | Database                      |
+| Mongoose       | MongoDB ODM                   |
+| Docker         | Containerization              |
+| Docker Compose | Multi-container Orchestration |
+
+---
+
+## Features
+
+* Create Todo Items
+* Retrieve Todo Items
+* MongoDB Integration
+* Dockerized Backend
+* Container Networking
+* Persistent Data Storage
+* Docker Compose Deployment
+
+---
+
+## API Endpoints
+
+### Home Endpoint
+
+```http
+GET /
+```
+
+Response:
+
+```text
+Todo App Running
+```
+
+### Create Todo
+
+```http
+POST /todo
+```
+
+Request:
+
+```json
+{
+  "title": "Learn Docker"
+}
+```
+
+Response:
+
+```json
+{
+  "_id": "...",
+  "title": "Learn Docker"
+}
+```
+
+### Get All Todos
+
+```http
+GET /todo
+```
+
+Response:
+
+```json
+[
+  {
+    "_id": "...",
+    "title": "Learn Docker"
+  }
+]
+```
+
+---
+
+## Dockerfile
+
+```dockerfile
+FROM node:20
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+EXPOSE 5000
+
+CMD ["npm","start"]
+```
+
+### Dockerfile Explanation
+
+| Instruction | Purpose              |
+| ----------- | -------------------- |
+| FROM        | Base Node.js Image   |
+| WORKDIR     | Working Directory    |
+| COPY        | Copy Files           |
+| RUN         | Install Dependencies |
+| EXPOSE      | Application Port     |
+| CMD         | Start Application    |
+
+---
+
+## Docker Compose Configuration
+
+```yaml
+services:
+
+  mongodb:
+    image: mongo
+
+    container_name: mongodb
+
+    ports:
+      - "27017:27017"
+
+    volumes:
+      - mongo-data:/data/db
+
+  backend:
+    build: ./backend
+
+    container_name: todo-app
+
+    ports:
+      - "5000:5000"
+
+    environment:
+      MONGO_URI: mongodb://mongodb:27017/todos
+
+    depends_on:
+      - mongodb
+
+volumes:
+  mongo-data:
+```
+
+---
+
+## Docker Architecture
+
+```text
+Browser/Postman
+       |
+       v
++----------------------+
+| Node.js Container    |
+| (todo-app)           |
++----------------------+
+          |
+          |
+     Docker Network
+          |
+          v
++----------------------+
+| MongoDB Container    |
+| (mongodb)            |
++----------------------+
+          |
+          v
++----------------------+
+| Docker Volume        |
+| mongo-data           |
++----------------------+
+```
+
+---
+
+## Challenges Faced
+
+### Issue 1: Dockerfile Not Found
+
+Error:
+
+```text
+failed to read dockerfile
+```
+
+Cause:
+
+* Dockerfile missing
+* Incorrect file name
+
+Solution:
+
+* Created Dockerfile correctly
+
+---
+
+### Issue 2: Docker Daemon Not Running
+
+Error:
+
+```text
+failed to connect to docker API
+```
+
+Cause:
+
+* Docker Desktop not running
+
+Solution:
+
+* Started Docker Desktop
+* Verified using docker ps
+
+---
+
+### Issue 3: MongoDB Connection Failed
+
+Error:
+
+```text
+MongooseServerSelectionError:
+ENOTFOUND mongo
+```
+
+Cause:
+
+```text
+mongodb://mongo:27017/todos
+```
+
+Container name was:
+
+```text
+mongodb
+```
+
+Solution:
+
+```text
+mongodb://mongodb:27017/todos
+```
+
+Rebuilt image and restarted containers.
+
+---
+
+## Running the Project
+
+### Clone Repository
+
+```bash
+git clone <repository-url>
+cd docker-todo-app
+```
+
+### Start Application
+
+```bash
+docker compose up -d
+```
+
+### Verify Containers
+
+```bash
+docker ps
+```
+
+### View Logs
+
+```bash
+docker compose logs
+```
+
+### Stop Application
+
+```bash
+docker compose down
+```
+
+---
+
+## Learning Outcomes
+
+Through this project, I learned:
+
+* Docker Images
+* Docker Containers
+* Dockerfile Instructions
+* Container Networking
+* Docker DNS
+* Docker Volumes
+* Docker Compose
+* Troubleshooting Container Issues
+* Multi-container Application Deployment
+
+---
+
+## Conclusion
+
+This project demonstrates an end-to-end Docker workflow where a Node.js application communicates with MongoDB through Docker networking, persists data using Docker volumes, and is orchestrated using Docker Compose for simplified deployment.
