@@ -1,0 +1,328 @@
+# Kubernetes Hands-On: Deploying a Node.js Application on Minikube
+
+## Project Overview
+
+This project demonstrates the complete lifecycle of deploying a Node.js application on Kubernetes using Minikube and Docker.
+
+The objective was to understand Kubernetes core components through a practical implementation including:
+
+* Docker Image Creation
+* Kubernetes Pods
+* Deployments
+* ReplicaSets
+* Services
+* Scaling
+* Rolling Updates
+* Rollbacks
+* Troubleshooting
+* Resource Cleanup
+
+---
+
+## Tech Stack
+
+* Node.js
+* Docker
+* Kubernetes
+* Minikube
+* kubectl
+
+---
+
+## Project Architecture
+
+Node.js Application
+
+↓
+
+Docker Image
+
+↓
+
+Kubernetes Deployment
+
+↓
+
+ReplicaSet
+
+↓
+
+Pods
+
+↓
+
+NodePort Service
+
+↓
+
+Browser Access
+
+---
+
+## Project Structure
+
+k8s-node-app/
+
+├── app.js
+
+├── package.json
+
+├── package-lock.json
+
+├── Dockerfile
+
+├── deployment.yaml
+
+├── service.yaml
+
+└── README.md
+
+---
+
+## Step 1: Create Node.js Application
+
+Created a simple Express application exposing an HTTP endpoint.
+
+Features:
+
+* Lightweight REST application
+* Runs on Port 3000
+* Returns a simple response
+
+---
+
+## Step 2: Containerization Using Docker
+
+Created a Dockerfile and built the application image.
+
+Command:
+
+docker build -t nodeapp:v1 .
+
+Verification:
+
+docker images
+
+Result:
+
+Successfully created Docker image nodeapp:v1
+
+---
+
+## Step 3: Kubernetes Cluster Setup
+
+Started Minikube cluster.
+
+Commands:
+
+minikube start
+
+kubectl cluster-info
+
+kubectl get nodes
+
+Verification:
+
+Node status became Ready.
+
+---
+
+## Step 4: Pod Deployment
+
+Created deployment.yaml and deployed application.
+
+Command:
+
+kubectl apply -f deployment.yaml
+
+Verification:
+
+kubectl get pods
+
+Result:
+
+3 Pods successfully running.
+
+---
+
+## Step 5: Deployment and ReplicaSet
+
+Deployment was configured with:
+
+* 3 Replicas
+* Label Selectors
+* Pod Template
+
+Verification:
+
+kubectl get deployment
+
+kubectl get rs
+
+Observed:
+
+Deployment automatically created a ReplicaSet which managed Pod creation.
+
+---
+
+## Step 6: Service Exposure
+
+Created a NodePort Service.
+
+Command:
+
+kubectl apply -f service.yaml
+
+Verification:
+
+kubectl get svc
+
+Application Access:
+
+minikube service nodeapp-service
+
+Result:
+
+Application became accessible through browser.
+
+---
+
+## Step 7: Horizontal Scaling
+
+Scaled application from 3 replicas to 5 replicas.
+
+Command:
+
+kubectl scale deployment nodeapp --replicas=5
+
+Verification:
+
+kubectl get pods
+
+Result:
+
+ReplicaSet automatically created two additional Pods.
+
+---
+
+## Step 8: Self-Healing Demonstration
+
+Deleted one running Pod manually.
+
+Command:
+
+kubectl delete pod <pod-name>
+
+Observation:
+
+ReplicaSet automatically recreated the deleted Pod.
+
+This demonstrated Kubernetes self-healing capability.
+
+---
+
+## Step 9: Rolling Update
+
+Updated application response and built a new image.
+
+Command:
+
+docker build -t nodeapp:v2 .
+
+minikube image load nodeapp:v2
+
+kubectl set image deployment/nodeapp nodeapp=nodeapp:v2
+
+Verification:
+
+kubectl rollout status deployment/nodeapp
+
+Result:
+
+Pods were updated gradually without downtime.
+
+---
+
+## Step 10: Rollback
+
+Viewed deployment revisions.
+
+Command:
+
+kubectl rollout history deployment/nodeapp
+
+Performed rollback.
+
+Command:
+
+kubectl rollout undo deployment/nodeapp
+
+Result:
+
+Application reverted to previous stable version.
+
+---
+
+## Step 11: Troubleshooting
+
+Used Kubernetes debugging commands:
+
+kubectl logs <pod-name>
+
+kubectl describe pod <pod-name>
+
+kubectl exec -it <pod-name> -- sh
+
+kubectl get events
+
+Common issues resolved:
+
+* ErrImageNeverPull
+* ImagePullBackOff
+* CrashLoopBackOff
+* Service Connectivity Issues
+
+---
+
+## Key Learnings
+
+* Understanding Kubernetes architecture
+* Working with Pods and Deployments
+* ReplicaSet management
+* Service exposure mechanisms
+* Scaling applications
+* Rolling Updates and Rollbacks
+* Kubernetes troubleshooting techniques
+* Cluster operations using kubectl
+
+---
+
+## Outcome
+
+Successfully deployed and managed a containerized Node.js application on Kubernetes.
+
+Demonstrated:
+
+✔ Docker Image Creation
+
+✔ Kubernetes Deployments
+
+✔ ReplicaSets
+
+✔ Pods
+
+✔ Services
+
+✔ Scaling
+
+✔ Self-Healing
+
+✔ Rolling Updates
+
+✔ Rollbacks
+
+✔ Troubleshooting
+
+✔ Resource Cleanup
+
+This project provides a complete beginner-to-intermediate hands-on understanding of Kubernetes application deployment and operations.
