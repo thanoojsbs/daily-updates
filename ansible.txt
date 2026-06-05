@@ -1,0 +1,375 @@
+# Ansible Nginx Automation Project
+
+## Project Overview
+
+This project demonstrates Infrastructure Automation using Ansible by automating the installation, configuration, and deployment of an Nginx web server.
+
+The automation performs the following tasks:
+
+* Updates package repositories
+* Installs Nginx
+* Starts the Nginx service
+* Enables Nginx during system boot
+* Creates the web root directory
+* Deploys a custom HTML webpage
+* Demonstrates Ansible idempotency
+
+---
+
+## Architecture
+
+```text
++------------------------+
+|  Ansible Control Node  |
+|  Ubuntu WSL + Ansible  |
++-----------+------------+
+            |
+            |
+            v
++------------------------+
+|      Managed Host      |
+|       localhost        |
+|         Nginx          |
++------------------------+
+```
+
+---
+
+## Project Structure
+
+```text
+ansible-nginx-automation/
+│
+├── inventory.ini
+├── nginx-install.yml
+├── vars.yml
+├── README.md
+│
+├── files/
+│   └── index.html
+│
+└── screenshots/
+    ├── ansible-ping.png
+    ├── playbook-success.png
+    └── website-output.png
+```
+
+---
+
+## inventory.ini
+
+```ini
+[webservers]
+localhost ansible_connection=local
+```
+
+---
+
+## vars.yml
+
+```yaml
+package_name: nginx
+service_name: nginx
+web_root: /var/www/html
+```
+
+---
+
+## nginx-install.yml
+
+```yaml
+---
+- name: Install Nginx
+  hosts: webservers
+  become: yes
+
+  vars_files:
+    - vars.yml
+
+  tasks:
+
+    - name: Update package cache
+      apt:
+        update_cache: yes
+
+    - name: Install nginx
+      apt:
+        name: "{{ package_name }}"
+        state: present
+
+    - name: Start nginx service
+      service:
+        name: "{{ service_name }}"
+        state: started
+        enabled: yes
+
+    - name: Create web root directory
+      file:
+        path: "{{ web_root }}"
+        state: directory
+
+    - name: Deploy custom webpage
+      copy:
+        src: files/index.html
+        dest: "{{ web_root }}/index.html"
+```
+
+---
+
+## files/index.html
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ansible Automation Demo</title>
+</head>
+<body>
+    <h1>Ansible Deployment Success</h1>
+    <h2>Deployed by Thanooj</h2>
+    <p>Nginx installed and configured using Ansible Automation</p>
+</body>
+</html>
+```
+
+---
+
+## Commands Executed
+
+### Verify Ansible Installation
+
+```bash
+ansible --version
+```
+
+### Verify Inventory Connectivity
+
+```bash
+ansible all -i inventory.ini -m ping
+```
+
+Expected Output:
+
+```json
+{
+  "ping": "pong"
+}
+```
+
+### Execute Playbook
+
+```bash
+sudo ansible-playbook -i inventory.ini nginx-install.yml
+```
+
+### Verify Nginx Installation
+
+```bash
+nginx -v
+```
+
+### Verify Service Status
+
+```bash
+sudo systemctl status nginx
+```
+
+### Verify Website Deployment
+
+```bash
+curl http://localhost
+```
+
+Expected Output:
+
+```html
+<h1>Ansible Deployment Success</h1>
+```
+
+---
+
+## Sample Successful Execution
+
+```text
+PLAY [Install Nginx]
+
+TASK [Gathering Facts] *****************************
+ok: [localhost]
+
+TASK [Update package cache] ************************
+changed: [localhost]
+
+TASK [Install nginx] *******************************
+ok: [localhost]
+
+TASK [Start nginx service] *************************
+ok: [localhost]
+
+TASK [Create web root directory] *******************
+ok: [localhost]
+
+TASK [Deploy custom webpage] ***********************
+changed: [localhost]
+
+PLAY RECAP *****************************************
+localhost : ok=6 changed=2 failed=0
+```
+
+---
+
+## Idempotency Demonstration
+
+Run the playbook again:
+
+```bash
+sudo ansible-playbook -i inventory.ini nginx-install.yml
+```
+
+Output:
+
+```text
+PLAY RECAP
+
+localhost : ok=6 changed=0 failed=0
+```
+
+### Explanation
+
+Ansible checks the current state of the system before performing actions.
+
+Since:
+
+* Nginx is already installed
+* Service is already running
+* Directory already exists
+* Webpage is already deployed
+
+No changes are required.
+
+This behavior is called **Idempotency**.
+
+---
+
+## Problems Encountered and Resolutions
+
+### Issue 1: Docker Desktop WSL
+
+Problem:
+
+Commands were executed inside Docker Desktop WSL instead of Ubuntu WSL.
+
+Error:
+
+```text
+docker-desktop:/...
+```
+
+Resolution:
+
+```bash
+wsl -d Ubuntu
+```
+
+---
+
+### Issue 2: YAML Parsing Failure
+
+Problem:
+
+```text
+Expected a single document in the stream
+```
+
+Cause:
+
+Multiple YAML separators:
+
+```yaml
+---
+```
+
+were accidentally added.
+
+Resolution:
+
+Recreated the playbook with a single YAML document.
+
+---
+
+### Issue 3: Become Authentication Error
+
+Problem:
+
+```text
+Timed out waiting for become success
+```
+
+Resolution:
+
+```bash
+sudo ansible-playbook -i inventory.ini nginx-install.yml
+```
+
+---
+
+## Concepts Demonstrated
+
+### Inventory
+
+Defines managed hosts.
+
+### Playbook
+
+Automation instructions written in YAML.
+
+### Modules
+
+Used:
+
+* apt
+* service
+* file
+* copy
+* ping
+
+### Privilege Escalation
+
+```yaml
+become: yes
+```
+
+Used to execute tasks with sudo privileges.
+
+### Idempotency
+
+Repeated executions produce the same desired state without unnecessary modifications.
+
+---
+
+## Learning Outcomes
+
+* Ansible Installation
+* Inventory Management
+* Ad-Hoc Commands
+* YAML Syntax
+* Package Management
+* Service Management
+* File Deployment
+* Infrastructure Automation
+* Troubleshooting
+* Idempotency
+
+---
+
+## Future Enhancements
+
+* Variables
+* Handlers
+* Templates
+* Roles
+* Multi-Host Deployment
+* Dynamic Inventory
+* CI/CD Integration
+
+---
+
