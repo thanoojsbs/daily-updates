@@ -1,0 +1,424 @@
+# Terraform AWS EC2 Infrastructure Automation
+
+## Project Overview
+
+This project demonstrates Infrastructure as Code (IaC) using Terraform.
+
+The objective is to automate AWS infrastructure provisioning by creating an EC2 instance through Terraform configuration files.
+
+Instead of manually creating resources from the AWS Console, Terraform provisions infrastructure using code, making deployments repeatable, version-controlled, and scalable.
+
+---
+
+## Project Objectives
+
+* Provision AWS Infrastructure using Terraform
+* Create EC2 Instance automatically
+* Use Infrastructure as Code principles
+* Demonstrate Terraform State Management
+* Demonstrate Terraform Lifecycle Commands
+* Verify Infrastructure Creation
+* Destroy Infrastructure through Terraform
+
+---
+
+## Architecture
+
+```text
+Developer Laptop
+      |
+      |
+Terraform
+      |
+      |
+AWS Provider
+      |
+      |
+EC2 Instance
+      |
+      |
+Ubuntu Linux Server
+```
+
+---
+
+## Technologies Used
+
+* Terraform
+* AWS
+* EC2
+* IAM
+* VPC
+* Infrastructure as Code (IaC)
+
+---
+
+## Project Structure
+
+```text
+terraform-aws-ec2/
+
+├── main.tf
+├── provider.tf
+├── variables.tf
+├── terraform.tfvars
+├── outputs.tf
+├── README.md
+│
+└── screenshots/
+    ├── terraform-init.png
+    ├── terraform-plan.png
+    ├── terraform-apply.png
+    └── aws-console.png
+```
+
+---
+
+## provider.tf
+
+```hcl
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
+}
+
+provider "aws" {
+  region = "us-east-1"
+}
+```
+
+---
+
+## variables.tf
+
+```hcl
+variable "instance_type" {
+  default = "t2.micro"
+}
+
+variable "instance_name" {
+  default = "Terraform-Server"
+}
+```
+
+---
+
+## main.tf
+
+```hcl
+resource "aws_instance" "webserver" {
+
+  ami           = "ami-0c02fb55956c7d316"
+  instance_type = var.instance_type
+
+  tags = {
+    Name = var.instance_name
+  }
+}
+```
+
+---
+
+## outputs.tf
+
+```hcl
+output "instance_id" {
+  value = aws_instance.webserver.id
+}
+
+output "public_ip" {
+  value = aws_instance.webserver.public_ip
+}
+```
+
+---
+
+## Terraform Workflow
+
+### Initialize Terraform
+
+```bash
+terraform init
+```
+
+Purpose:
+
+* Downloads provider plugins
+* Creates .terraform directory
+* Initializes working directory
+
+Expected Output:
+
+```text
+Terraform has been successfully initialized
+```
+
+---
+
+### Validate Configuration
+
+```bash
+terraform validate
+```
+
+Purpose:
+
+Checks Terraform syntax.
+
+Expected Output:
+
+```text
+Success! The configuration is valid.
+```
+
+---
+
+### Preview Changes
+
+```bash
+terraform plan
+```
+
+Purpose:
+
+Shows infrastructure changes before deployment.
+
+Expected Output:
+
+```text
+Plan: 1 to add, 0 to change, 0 to destroy.
+```
+
+---
+
+### Create Infrastructure
+
+```bash
+terraform apply
+```
+
+Purpose:
+
+Creates AWS resources.
+
+Confirmation:
+
+```text
+Do you want to perform these actions?
+```
+
+Enter:
+
+```text
+yes
+```
+
+Expected Output:
+
+```text
+Apply complete!
+```
+
+---
+
+### Verify Resources
+
+Check AWS Console:
+
+* EC2 Dashboard
+* Running Instances
+
+Verify:
+
+```text
+Instance State = Running
+```
+
+---
+
+### View Outputs
+
+```bash
+terraform output
+```
+
+Expected Output:
+
+```text
+instance_id = i-xxxxxxxxxx
+public_ip = xx.xx.xx.xx
+```
+
+---
+
+### Check State File
+
+```bash
+ls
+```
+
+Expected:
+
+```text
+terraform.tfstate
+```
+
+Purpose:
+
+Stores actual infrastructure state.
+
+---
+
+## Destroy Infrastructure
+
+```bash
+terraform destroy
+```
+
+Purpose:
+
+Removes all resources created by Terraform.
+
+Confirmation:
+
+```text
+yes
+```
+
+Expected Output:
+
+```text
+Destroy complete!
+```
+
+---
+
+## Terraform Commands Used
+
+```bash
+terraform init
+terraform validate
+terraform fmt
+terraform plan
+terraform apply
+terraform show
+terraform output
+terraform destroy
+```
+
+---
+
+## Challenges Faced
+
+### AWS Credentials Error
+
+Error:
+
+```text
+No valid credential sources found
+```
+
+Resolution:
+
+```bash
+aws configure
+```
+
+Configured:
+
+* Access Key
+* Secret Key
+* Region
+
+---
+
+### Invalid AMI Error
+
+Error:
+
+```text
+AMI not found
+```
+
+Resolution:
+
+Used valid AMI for selected AWS region.
+
+---
+
+### State Lock Error
+
+Error:
+
+```text
+State file locked
+```
+
+Resolution:
+
+Released lock and re-ran Terraform.
+
+---
+
+## Concepts Demonstrated
+
+### Infrastructure as Code
+
+Infrastructure managed through code.
+
+### Providers
+
+Plugin that connects Terraform with AWS.
+
+### Resources
+
+Actual infrastructure components.
+
+Example:
+
+```hcl
+resource "aws_instance" "webserver"
+```
+
+### Variables
+
+Reusable configuration values.
+
+### Outputs
+
+Display useful information after deployment.
+
+### State File
+
+Tracks infrastructure created by Terraform.
+
+---
+
+## Learning Outcomes
+
+* Terraform Basics
+* AWS Provider Configuration
+* EC2 Provisioning
+* Variables and Outputs
+* Terraform State
+* Infrastructure Automation
+* Resource Lifecycle Management
+* Troubleshooting
+
+---
+
+## Future Enhancements
+
+* VPC Creation
+* Security Groups
+* S3 Buckets
+* IAM Roles
+* Auto Scaling
+* Load Balancers
+* Multi-Environment Deployments
+* Terraform Modules
+

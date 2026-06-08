@@ -1,0 +1,578 @@
+# Azure Production-Grade 3-Tier E-Commerce Application
+
+## Project Overview
+
+This project demonstrates the deployment of a production-ready 3-tier web application on Microsoft Azure using enterprise cloud architecture best practices.
+
+The objective is to host a highly available, scalable, secure, and fault-tolerant e-commerce application while leveraging Azure services commonly used in enterprise environments.
+
+This project covers networking, compute, storage, database, monitoring, security, DNS management, content delivery, auditing, backup, and disaster recovery solutions.
+
+---
+
+# Architecture
+
+```text
+Internet Users
+      │
+      ▼
+ Azure DNS
+      │
+      ▼
+ Azure Front Door
+      │
+      ▼
+ Azure Application Gateway
+      │
+      ▼
+ Virtual Machine Scale Set
+      │
+ ┌────┴────┐
+ ▼         ▼
+VM-1      VM-2
+      │
+      ▼
+ Azure Database for MySQL
+
+Static Content
+      │
+      ▼
+ Azure Storage Account
+
+Monitoring
+      │
+      ▼
+ Azure Monitor
+      │
+      ▼
+ Action Groups
+
+Auditing
+      │
+      ▼
+ Azure Activity Logs
+
+Backups
+      │
+      ▼
+ Azure Backup
+```
+
+---
+
+# Business Requirement
+
+An e-commerce company requires:
+
+* High Availability
+* Automatic Scaling
+* Secure Networking
+* Managed Database
+* Centralized Monitoring
+* Audit Logging
+* Automated Backups
+* Fast Global Content Delivery
+
+Azure services are used to fulfill these requirements.
+
+---
+
+# Azure Services Used
+
+| Service                       | Purpose               |
+| ----------------------------- | --------------------- |
+| Microsoft Entra ID (Azure AD) | Identity Management   |
+| Resource Groups               | Resource Organization |
+| Virtual Network (VNet)        | Network Isolation     |
+| Network Security Groups       | Firewall Protection   |
+| Virtual Machines              | Application Hosting   |
+| Managed Disks                 | Persistent Storage    |
+| Azure Storage Account         | Object Storage        |
+| Azure Database for MySQL      | Managed Database      |
+| Application Gateway           | Load Balancing        |
+| VM Scale Sets                 | Auto Scaling          |
+| Azure Monitor                 | Monitoring            |
+| Action Groups                 | Notifications         |
+| Azure DNS                     | DNS Management        |
+| Azure Front Door              | Global CDN            |
+| Azure Activity Logs           | Auditing              |
+| Azure Backup                  | Backup Management     |
+
+---
+
+# Implementation Steps
+
+## Step 1: Azure Identity Configuration
+
+### Objective
+
+Implement secure access control and least privilege access model.
+
+### Activities
+
+* Create Users
+* Create Groups
+* Assign Roles
+* Configure RBAC
+
+### Sample Commands
+
+```bash
+az ad user create \
+--display-name devops-user \
+--user-principal-name devops-user@company.com \
+--password Password@123
+```
+
+### Outcome
+
+Secure identity and access management.
+
+---
+
+## Step 2: Resource Group Creation
+
+### Objective
+
+Organize Azure resources logically.
+
+### Command
+
+```bash
+az group create \
+--name Ecommerce-RG \
+--location eastus
+```
+
+### Outcome
+
+Centralized resource management.
+
+---
+
+## Step 3: Virtual Network Setup
+
+### Objective
+
+Create isolated network infrastructure.
+
+### Network Design
+
+```text
+VNet CIDR : 10.0.0.0/16
+
+Web Subnet     : 10.0.1.0/24
+App Subnet     : 10.0.2.0/24
+DatabaseSubnet : 10.0.3.0/24
+```
+
+### Components
+
+* Virtual Network
+* Subnets
+* Route Tables
+* Network Security Groups
+
+### Command
+
+```bash
+az network vnet create \
+--resource-group Ecommerce-RG \
+--name Ecommerce-VNet \
+--address-prefix 10.0.0.0/16
+```
+
+### Outcome
+
+Secure and scalable networking.
+
+---
+
+## Step 4: Security Configuration
+
+### Objective
+
+Protect Azure infrastructure.
+
+### NSG Rules
+
+#### VM NSG
+
+| Port | Protocol | Purpose        |
+| ---- | -------- | -------------- |
+| 22   | SSH      | Administration |
+| 80   | HTTP     | Web Traffic    |
+| 443  | HTTPS    | Secure Traffic |
+
+#### Database NSG
+
+| Port | Protocol | Purpose         |
+| ---- | -------- | --------------- |
+| 3306 | MySQL    | Database Access |
+
+### Outcome
+
+Controlled and secure communication.
+
+---
+
+## Step 5: Virtual Machine Deployment
+
+### Objective
+
+Host application servers.
+
+### Configuration
+
+* Ubuntu 22.04
+* Standard_B1s
+* Web Subnet
+
+### Create VM
+
+```bash
+az vm create \
+--resource-group Ecommerce-RG \
+--name WebServer01 \
+--image Ubuntu2204 \
+--size Standard_B1s \
+--admin-username azureuser
+```
+
+### Install Nginx
+
+```bash
+sudo apt update
+
+sudo apt install nginx -y
+```
+
+### Deploy Sample Page
+
+```bash
+echo "Azure Production Project" | sudo tee /var/www/html/index.html
+```
+
+### Verification
+
+```bash
+systemctl status nginx
+```
+
+### Outcome
+
+Application successfully hosted.
+
+---
+
+## Step 6: Managed Disk Storage
+
+### Objective
+
+Provide persistent storage.
+
+### Verification
+
+```bash
+lsblk
+```
+
+### Outcome
+
+Persistent storage attached to virtual machines.
+
+---
+
+## Step 7: Azure Storage Account
+
+### Objective
+
+Store static content and backups.
+
+### Create Storage Account
+
+```bash
+az storage account create \
+--name ecommerceprodstorage \
+--resource-group Ecommerce-RG \
+--location eastus \
+--sku Standard_LRS
+```
+
+### Outcome
+
+Scalable object storage implemented.
+
+---
+
+## Step 8: Azure Database for MySQL
+
+### Objective
+
+Deploy managed MySQL database.
+
+### Configuration
+
+* Flexible Server
+* High Availability Enabled
+* Automated Backups Enabled
+
+### Create Server
+
+```bash
+az mysql flexible-server create \
+--resource-group Ecommerce-RG \
+--name ecommerce-db
+```
+
+### Create Database
+
+```sql
+CREATE DATABASE ecommerce;
+```
+
+### Outcome
+
+Managed and highly available database platform.
+
+---
+
+## Step 9: Azure Application Gateway
+
+### Objective
+
+Distribute traffic across application servers.
+
+### Features
+
+* Layer 7 Load Balancing
+* SSL Termination
+* Health Probes
+
+### Health Probe
+
+```text
+/
+```
+
+### Outcome
+
+Improved reliability and fault tolerance.
+
+---
+
+## Step 10: Virtual Machine Scale Set
+
+### Objective
+
+Automatically scale infrastructure.
+
+### Configuration
+
+```text
+Minimum Instances : 2
+Desired Instances : 2
+Maximum Instances : 5
+```
+
+### Scaling Policy
+
+```text
+CPU Utilization > 70%
+```
+
+### Outcome
+
+Automatic infrastructure scaling.
+
+---
+
+## Step 11: Azure Monitor
+
+### Objective
+
+Monitor infrastructure and applications.
+
+### Metrics
+
+* CPU Utilization
+* Memory Usage
+* Disk Usage
+* Network Traffic
+
+### Alert
+
+```text
+CPU Utilization > 80%
+```
+
+### Outcome
+
+Proactive monitoring and alerting.
+
+---
+
+## Step 12: Action Groups
+
+### Objective
+
+Notify administrators during incidents.
+
+### Create Action Group
+
+```bash
+az monitor action-group create \
+--name ProductionAlerts \
+--resource-group Ecommerce-RG
+```
+
+### Outcome
+
+Real-time notifications.
+
+---
+
+## Step 13: Azure Front Door
+
+### Objective
+
+Improve application performance globally.
+
+### Benefits
+
+* Global Load Balancing
+* Content Caching
+* DDoS Protection
+* Reduced Latency
+
+### Outcome
+
+Global content delivery enabled.
+
+---
+
+## Step 14: Azure DNS
+
+### Objective
+
+Manage domain resolution.
+
+### Example
+
+```text
+www.ecommerce.com
+```
+
+### Routes To
+
+```text
+Azure Front Door
+```
+
+### Outcome
+
+Reliable DNS routing.
+
+---
+
+## Step 15: Azure Activity Logs
+
+### Objective
+
+Track Azure account activities.
+
+### Records
+
+* Who performed action
+* What action occurred
+* When it occurred
+* Source Information
+
+### Outcome
+
+Complete audit visibility.
+
+---
+
+## Step 16: Azure Backup
+
+### Objective
+
+Protect critical resources.
+
+### Backup Targets
+
+* Virtual Machines
+* Managed Disks
+* Azure Files
+* Databases
+
+### Outcome
+
+Automated backup and recovery strategy.
+
+---
+
+# Monitoring and Incident Flow
+
+```text
+High CPU Usage
+       │
+       ▼
+ Azure Monitor Alert
+       │
+       ▼
+ Action Group
+       │
+       ▼
+ Email Notification
+       │
+       ▼
+ DevOps Team Action
+```
+
+---
+
+# Key DevOps Concepts Demonstrated
+
+* High Availability
+* Fault Tolerance
+* Scalability
+* Infrastructure Security
+* Monitoring & Alerting
+* Disaster Recovery
+* Backup Strategy
+* DNS Management
+* Global Content Delivery
+* Infrastructure Automation
+* Cloud Governance
+* Cost Optimization
+
+---
+
+# Project Outcomes
+
+Successfully designed and implemented a production-grade Azure infrastructure capable of supporting enterprise web applications while following Microsoft Azure Well-Architected Framework principles.
+
+The project demonstrates practical implementation of networking, compute, storage, database, monitoring, security, governance, backup, and operational excellence principles within Microsoft Azure.
+
+---
+
+# Learning Outcomes
+
+* Azure Fundamentals
+* Resource Groups
+* Virtual Networks
+* Network Security Groups
+* Virtual Machines
+* Azure Storage
+* Azure Database for MySQL
+* Application Gateway
+* VM Scale Sets
+* Azure Monitor
+* Azure Front Door
+* Azure DNS
+* Azure Activity Logs
+* Azure Backup
+* Production Architecture Design
+
