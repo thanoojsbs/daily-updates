@@ -1,0 +1,396 @@
+Below is a GitHub-ready guide written as an onboarding document for new Master's students searching for jobs in the USA.
+
+# USA Job Search Playbook for Master's Students (OPT/STEM OPT)
+
+## Purpose
+
+This guide is designed for Master's students and recent graduates searching for Software Engineering, DevOps, Cloud, SRE, Platform Engineering, and related technology roles in the United States.
+
+The goal is simple:
+
+**Get interviews faster by applying smarter, not by applying to thousands of random jobs.**
+
+---
+
+# Before You Start
+
+Most students fail because they:
+
+* Apply everywhere without a strategy
+* Search only on LinkedIn
+* Ignore location-based hiring trends
+* Apply days after jobs are posted
+* Never contact recruiters
+* Do not track applications
+
+A professional job search is treated like a daily process, not an occasional activity.
+
+---
+
+# Rule #1: Search by Region, Not by USA
+
+Do NOT search:
+
+```text
+Software Engineer - United States
+```
+
+Do search:
+
+```text
+Software Engineer - Dallas, TX
+Software Engineer - Austin, TX
+Software Engineer - Raleigh, NC
+Software Engineer - Atlanta, GA
+DevOps Engineer - Phoenix, AZ
+Cloud Engineer - Denver, CO
+```
+
+### Recommended Regions
+
+| Region      | Why                              |
+| ----------- | -------------------------------- |
+| Dallas, TX  | Large tech hiring market         |
+| Austin, TX  | Startup + Enterprise hiring      |
+| Raleigh, NC | Strong demand, lower competition |
+| Atlanta, GA | Fortune 500 hiring               |
+| Phoenix, AZ | Growing cloud market             |
+| Denver, CO  | Strong DevOps/SRE demand         |
+| Chicago, IL | Enterprise technology jobs       |
+| Tampa, FL   | Lower competition                |
+
+Avoid focusing only on:
+
+* Silicon Valley
+* San Francisco
+* New York City
+
+Competition is significantly higher.
+
+---
+
+# Rule #2: Fresh Jobs Win
+
+Applications submitted early get noticed.
+
+### Always Filter By
+
+LinkedIn:
+
+```text
+Past 24 Hours
+Most Recent
+```
+
+Preferred:
+
+```text
+Past Hour
+```
+
+### Application Priority
+
+| Posted Time    | Priority |
+| -------------- | -------- |
+| Under 1 Hour   | Highest  |
+| Under 24 Hours | High     |
+| 1–3 Days       | Medium   |
+| 7+ Days        | Low      |
+
+Target:
+
+```text
+Apply within 30 minutes whenever possible.
+```
+
+---
+
+# Rule #3: Search Multiple Job Titles
+
+Most students search only one title.
+
+This is a mistake.
+
+---
+
+## For DevOps
+
+Search all:
+
+```text
+DevOps Engineer
+Cloud Engineer
+Infrastructure Engineer
+Platform Engineer
+Site Reliability Engineer
+Build Release Engineer
+Automation Engineer
+Linux Engineer
+Systems Engineer
+Kubernetes Engineer
+```
+
+---
+
+## For Software Engineering
+
+Search all:
+
+```text
+Software Engineer
+Software Developer
+Java Developer
+Backend Engineer
+Full Stack Engineer
+Application Developer
+Associate Software Engineer
+Junior Software Engineer
+Software Engineer I
+```
+
+---
+
+# Rule #4: Search Company Career Pages
+
+Many jobs never reach LinkedIn.
+
+Use:
+
+```text
+site:company.com careers
+```
+
+Examples:
+
+```text
+Amazon Careers
+Microsoft Careers
+Oracle Careers
+Cisco Careers
+Capital One Careers
+JPMorgan Careers
+ServiceNow Careers
+PayPal Careers
+Dell Careers
+```
+
+---
+
+# Rule #5: Check Sponsorship Before Applying
+
+Do not waste applications.
+
+Check whether the company has sponsored H1B visas before.
+
+Use:
+
+* H1BGrader
+* MyVisaJobs
+* USCIS H1B Employer Database
+
+Check:
+
+* Sponsorship history
+* Number of approvals
+* Job titles sponsored
+
+---
+
+# Rule #6: Use Advanced Search Queries
+
+Instead of:
+
+```text
+DevOps
+```
+
+Use:
+
+```text
+("DevOps Engineer" OR "Cloud Engineer" OR "SRE")
+AND AWS
+```
+
+Instead of:
+
+```text
+Java
+```
+
+Use:
+
+```text
+("Software Engineer" OR "Backend Engineer")
+AND "Spring Boot"
+```
+
+This reveals jobs hidden from normal searches.
+
+---
+
+# Rule #7: Build a Daily Job Search Routine
+
+### Morning Session
+
+Duration: 30 Minutes
+
+Tasks:
+
+* LinkedIn recent jobs
+* Company career pages
+* New postings
+
+---
+
+### Afternoon Session
+
+Duration: 30 Minutes
+
+Tasks:
+
+* Regional searches
+* Visa-friendly companies
+* Application tracking
+
+---
+
+### Evening Session
+
+Duration: 30 Minutes
+
+Tasks:
+
+* Recruiter outreach
+* Networking
+* Referral requests
+
+---
+
+# Rule #8: Contact Recruiters
+
+After applying:
+
+1. Find recruiter.
+2. Send connection request.
+3. Follow up politely.
+
+Template:
+
+```text
+Hello [Recruiter Name],
+
+I recently applied for the [Position Name].
+
+I am currently pursuing my Master's degree and have experience in [Skills].
+
+I would appreciate any guidance regarding the opportunity.
+
+Thank you.
+```
+
+Target:
+
+```text
+10 recruiter connections per day
+```
+
+---
+
+# Rule #9: Track Everything
+
+Create a spreadsheet.
+
+| Company | Role | Location | Date Applied | Recruiter | Status |
+| ------- | ---- | -------- | ------------ | --------- | ------ |
+
+Status:
+
+```text
+Applied
+Assessment
+Interview
+Rejected
+Offer
+```
+
+Never rely on memory.
+
+---
+
+# Rule #10: Apply Quality Over Quantity
+
+Bad:
+
+```text
+300 random applications
+```
+
+Good:
+
+```text
+20 targeted applications
+10 recruiter messages
+2 referrals
+```
+
+Quality applications produce more interviews.
+
+---
+
+# Weekly Targets
+
+Minimum:
+
+```text
+100 Applications
+50 Recruiter Connections
+10 Referral Requests
+5 Networking Conversations
+```
+
+---
+
+# Professional Job Search Formula
+
+```text
+Fresh Jobs
++
+Target Regions
++
+Recruiter Outreach
++
+Referrals
++
+Consistent Tracking
+=
+More Interviews
+```
+
+---
+
+# Final Advice
+
+Treat job searching like a full-time project.
+
+Do not measure success by:
+
+```text
+Number of Applications
+```
+
+Measure success by:
+
+```text
+Recruiter Responses
+Assessments Received
+Interview Calls
+Referral Conversions
+```
+
+A candidate who applies strategically in the right regions with fresh postings and recruiter outreach will consistently outperform someone who blindly submits hundreds of applications.
+
+---
+
+**Version:** 1.0
+**Audience:** Master's Students (OPT/STEM OPT)
+**Focus Areas:** Software Engineering, DevOps, Cloud, SRE, Platform Engineering, Infrastructure Engineering.
